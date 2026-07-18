@@ -3,7 +3,7 @@ import axios from 'axios';
 export const api = axios.create({
   // Relative base: Vite proxies /api to the server in dev, and in production
   // the API is served from the same origin (or via a rewrite).
-  baseURL: '/api',
+  baseURL:  import.meta.env.VITE_API_URL,
   // Required for the HTTP-only auth cookie to travel with each request.
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
