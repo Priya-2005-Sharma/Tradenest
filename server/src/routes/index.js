@@ -11,7 +11,12 @@ import notificationRoutes from './notification.routes.js';
 import dashboardRoutes from './dashboard.routes.js';
 
 const router = Router();
-
+router.get('/', (_req, res) =>
+  res.json({
+    success: true,
+    message: 'TradeNest API is running 🚀',
+  }),
+);
 router.get('/health', (_req, res) =>
   res.json({ success: true, status: 'ok', uptime: process.uptime() }),
 );
