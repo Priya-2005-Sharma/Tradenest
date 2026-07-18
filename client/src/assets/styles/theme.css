@@ -1,0 +1,731 @@
+/* ==========================================================================
+   TradeNest design system
+   Design tokens layered over Bootstrap 5. Bootstrap's own CSS variables are
+   overridden here so stock components (buttons, forms, tables) inherit the
+   fintech palette without per-component overrides.
+   ========================================================================== */
+
+:root {
+  /* Brand */
+  --tn-primary: #2563eb;
+  --tn-primary-dark: #1d4ed8;
+  --tn-primary-light: #dbeafe;
+  --tn-primary-subtle: #eff6ff;
+
+  /* P&L semantics — green profit, red loss, used consistently everywhere */
+  --tn-profit: #059669;
+  --tn-profit-light: #d1fae5;
+  --tn-loss: #dc2626;
+  --tn-loss-light: #fee2e2;
+  --tn-warning: #d97706;
+  --tn-warning-light: #fef3c7;
+
+  /* Neutrals */
+  --tn-ink: #0f172a;
+  --tn-body: #334155;
+  --tn-muted: #64748b;
+  --tn-faint: #94a3b8;
+  --tn-border: #e2e8f0;
+  --tn-surface: #ffffff;
+  --tn-canvas: #f6f8fb;
+  --tn-canvas-dark: #0f172a;
+
+  /* Elevation — soft, low-contrast shadows */
+  --tn-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --tn-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --tn-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.07), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --tn-shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.1), 0 4px 8px rgba(15, 23, 42, 0.04);
+
+  /* Shape */
+  --tn-radius-sm: 8px;
+  --tn-radius: 12px;
+  --tn-radius-lg: 16px;
+  --tn-radius-xl: 24px;
+
+  /* Layout */
+  --tn-sidebar-width: 250px;
+  --tn-topbar-height: 64px;
+
+  /* Bootstrap overrides */
+  --bs-primary: var(--tn-primary);
+  --bs-primary-rgb: 37, 99, 235;
+  --bs-body-color: var(--tn-body);
+  --bs-body-bg: var(--tn-canvas);
+  --bs-border-color: var(--tn-border);
+  --bs-border-radius: var(--tn-radius);
+  --bs-font-sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--bs-font-sans-serif);
+  background-color: var(--tn-canvas);
+  color: var(--tn-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  /* Nothing on this site should ever scroll sideways. */
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--tn-ink);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--tn-primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--tn-primary-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--tn-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Numeric data aligns and compares better with tabular figures. */
+.tn-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Bootstrap 5 ships no min-width:0 utility, but flex items default to
+   min-width:auto and refuse to shrink below their content — which breaks
+   text-truncate and pushes siblings past the viewport. Everything that pairs a
+   flexible label with a fixed-size icon depends on this. */
+.min-w-0 {
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
+.tn-card {
+  background: var(--tn-surface);
+  border: 1px solid var(--tn-border);
+  border-radius: var(--tn-radius-lg);
+  box-shadow: var(--tn-shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.tn-card-hover:hover {
+  box-shadow: var(--tn-shadow-md);
+  transform: translateY(-2px);
+}
+
+.tn-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--tn-border);
+}
+
+.tn-card-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--tn-ink);
+  margin: 0;
+}
+
+.tn-card-body {
+  padding: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   P&L colour semantics
+   -------------------------------------------------------------------------- */
+
+.tn-profit { color: var(--tn-profit) !important; }
+.tn-loss { color: var(--tn-loss) !important; }
+.tn-neutral { color: var(--tn-muted) !important; }
+
+.tn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.tn-pill-profit { background: var(--tn-profit-light); color: var(--tn-profit); }
+.tn-pill-loss { background: var(--tn-loss-light); color: var(--tn-loss); }
+.tn-pill-neutral { background: #f1f5f9; color: var(--tn-muted); }
+.tn-pill-primary { background: var(--tn-primary-light); color: var(--tn-primary-dark); }
+.tn-pill-warning { background: var(--tn-warning-light); color: var(--tn-warning); }
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.btn {
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--tn-radius-sm);
+  padding: 0.5rem 1rem;
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--tn-primary);
+  border-color: var(--tn-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--tn-primary-dark);
+  border-color: var(--tn-primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--tn-primary);
+  border-color: var(--tn-border);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--tn-primary);
+  border-color: var(--tn-primary);
+}
+
+.btn-buy {
+  background-color: var(--tn-profit);
+  border-color: var(--tn-profit);
+  color: #fff;
+}
+
+.btn-buy:hover {
+  background-color: #047857;
+  border-color: #047857;
+  color: #fff;
+}
+
+.btn-sell {
+  background-color: var(--tn-loss);
+  border-color: var(--tn-loss);
+  color: #fff;
+}
+
+.btn-sell:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+  color: #fff;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+
+.form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--tn-ink);
+  margin-bottom: 0.375rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: var(--tn-radius-sm);
+  border-color: var(--tn-border);
+  padding: 0.5625rem 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--tn-ink);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--tn-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.form-control::placeholder {
+  color: var(--tn-faint);
+}
+
+.input-group-text {
+  background: var(--tn-canvas);
+  border-color: var(--tn-border);
+  color: var(--tn-muted);
+  font-size: 0.875rem;
+}
+
+.form-text {
+  font-size: 0.75rem;
+  color: var(--tn-muted);
+}
+
+.invalid-feedback {
+  font-size: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   Tables — horizontally scrollable inside their own container on small screens
+   -------------------------------------------------------------------------- */
+
+.tn-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tn-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.tn-table thead th {
+  background: var(--tn-canvas);
+  color: var(--tn-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--tn-border);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tn-table tbody td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--tn-border);
+  color: var(--tn-body);
+  vertical-align: middle;
+}
+
+.tn-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tn-table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.tn-table tbody tr:hover {
+  background-color: var(--tn-primary-subtle);
+}
+
+.tn-table .tn-symbol {
+  font-weight: 600;
+  color: var(--tn-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar + dashboard shell
+   -------------------------------------------------------------------------- */
+
+.tn-shell {
+  min-height: 100vh;
+  background: var(--tn-canvas);
+}
+
+.tn-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--tn-sidebar-width);
+  background: var(--tn-surface);
+  border-right: 1px solid var(--tn-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 1045;
+  transition: transform 0.25s ease;
+}
+
+.tn-sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem;
+}
+
+.tn-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--tn-radius-sm);
+  color: var(--tn-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.125rem;
+  transition: all 0.15s ease;
+}
+
+.tn-nav-link i {
+  width: 18px;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--tn-faint);
+  transition: color 0.15s ease;
+}
+
+.tn-nav-link:hover {
+  background: var(--tn-canvas);
+  color: var(--tn-ink);
+}
+
+.tn-nav-link:hover i {
+  color: var(--tn-muted);
+}
+
+.tn-nav-link.active {
+  background: var(--tn-primary-subtle);
+  color: var(--tn-primary-dark);
+  font-weight: 600;
+}
+
+.tn-nav-link.active i {
+  color: var(--tn-primary);
+}
+
+.tn-nav-section {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tn-faint);
+  padding: 0.75rem 0.75rem 0.375rem;
+}
+
+.tn-main {
+  margin-left: var(--tn-sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tn-topbar {
+  height: var(--tn-topbar-height);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--tn-border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.tn-content {
+  flex: 1;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.tn-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  z-index: 1040;
+  animation: tn-fade 0.15s ease;
+}
+
+/* Sidebar collapses to an off-canvas drawer below the lg breakpoint. */
+@media (max-width: 991.98px) {
+  .tn-sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--tn-shadow-lg);
+  }
+
+  .tn-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .tn-main {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .tn-content {
+    padding: 1rem 0.75rem 2.5rem;
+  }
+
+  .tn-card-body {
+    padding: 1rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Stat cards
+   -------------------------------------------------------------------------- */
+
+.tn-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tn-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.375rem;
+}
+
+.tn-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--tn-ink);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.tn-stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--tn-radius-sm);
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Marketing / public pages
+   -------------------------------------------------------------------------- */
+
+.tn-public-nav {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--tn-border);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.tn-hero {
+  background:
+    radial-gradient(900px 400px at 15% -10%, #dbeafe 0%, transparent 60%),
+    radial-gradient(700px 400px at 95% 0%, #ede9fe 0%, transparent 55%),
+    var(--tn-surface);
+  padding: 4.5rem 0 3.5rem;
+}
+
+.tn-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--tn-primary-light);
+  color: var(--tn-primary-dark);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.375rem 0.875rem;
+  border-radius: 999px;
+}
+
+.tn-display {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--tn-ink);
+}
+
+.tn-lead {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--tn-muted);
+  line-height: 1.65;
+}
+
+.tn-section {
+  padding: 4rem 0;
+}
+
+.tn-section-alt {
+  background: var(--tn-surface);
+  border-block: 1px solid var(--tn-border);
+}
+
+.tn-feature-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--tn-radius-sm);
+  background: var(--tn-primary-subtle);
+  color: var(--tn-primary);
+  display: grid;
+  place-items: center;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.tn-footer {
+  background: var(--tn-canvas-dark);
+  color: #cbd5e1;
+  padding: 3rem 0 1.5rem;
+}
+
+.tn-footer a {
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  display: inline-block;
+  padding: 0.1875rem 0;
+}
+
+.tn-footer a:hover {
+  color: #fff;
+}
+
+.tn-footer h6 {
+  color: #fff;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------
+   Ticker
+   -------------------------------------------------------------------------- */
+
+.tn-ticker {
+  background: var(--tn-canvas-dark);
+  color: #e2e8f0;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  font-size: 0.8125rem;
+}
+
+.tn-ticker-track {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  animation: tn-scroll 42s linear infinite;
+}
+
+.tn-ticker:hover .tn-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes tn-scroll {
+  from { transform: translateX(0); }
+  /* The track renders its items twice; -50% is one full set. */
+  to { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   Misc
+   -------------------------------------------------------------------------- */
+
+.tn-avatar {
+  border-radius: 50%;
+  background: var(--tn-primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.tn-empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+
+.tn-empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--tn-canvas);
+  color: var(--tn-faint);
+  display: grid;
+  place-items: center;
+  font-size: 1.375rem;
+  margin: 0 auto 1rem;
+}
+
+.tn-skeleton {
+  background: linear-gradient(90deg, #eef2f7 25%, #e2e8f0 37%, #eef2f7 63%);
+  background-size: 400% 100%;
+  animation: tn-shimmer 1.4s ease infinite;
+  border-radius: var(--tn-radius-sm);
+}
+
+@keyframes tn-shimmer {
+  from { background-position: 100% 50%; }
+  to { background-position: 0 50%; }
+}
+
+@keyframes tn-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.tn-fade-in {
+  animation: tn-fade 0.25s ease;
+}
+
+.tn-toast-stack {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1090;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: min(360px, calc(100vw - 2rem));
+}
+
+.tn-divider {
+  height: 1px;
+  background: var(--tn-border);
+  border: 0;
+  margin: 0;
+  opacity: 1;
+}
+
+.tn-link-muted {
+  color: var(--tn-muted);
+  font-size: 0.875rem;
+}
+
+.tn-link-muted:hover {
+  color: var(--tn-primary);
+}
+
+.tn-clickable {
+  cursor: pointer;
+}
+
+/* Users who prefer reduced motion get no ticker scroll or shimmer. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .tn-ticker-track {
+    animation: none;
+  }
+}
